@@ -28,6 +28,7 @@ namespace CRUDOps
             Console.WriteLine("Query Result :");
             return result;
         }
+
         #endregion
 
         #region Insert
@@ -99,22 +100,72 @@ namespace CRUDOps
     {
         public static void Main(string[] args)
         {
-            //Insert
-            var insertQuery = CrudOperations.CreateInsertQuery("Rai HR 20000");
-            Console.WriteLine(insertQuery);
-            CrudOperations.ExecuteNonQuery(insertQuery);
+            //////Insert
+            //var insertQuery = CrudOperations.CreateInsertQuery("Keshav Finance 30000");
+            //Console.WriteLine(insertQuery);
+            //CrudOperations.ExecuteNonQuery(insertQuery);
 
-            // Read
-            DataSet data = CrudOperations.ReadFromTable("Select * FROM dbo.Employees");
-            Console.WriteLine(data.GetXml());
+            //// Read
+            //DataSet data = CrudOperations.ReadFromTable("Select * FROM dbo.Employees");
+            //Console.WriteLine(data.GetXml());
 
-            //Delete
-            var deleteQuery = CrudOperations.DeleteIdQuery(7);
-            CrudOperations.ExecuteNonQuery(deleteQuery);
+            ////////Delete
+            //var deleteQuery = CrudOperations.DeleteIdQuery(11);
+            //CrudOperations.ExecuteNonQuery(deleteQuery);
 
-            //Update 
-            var updateSalaryQuery = CrudOperations.UpdateSalaryQuery(8, 30000);
-            CrudOperations.ExecuteNonQuery(updateSalaryQuery);
+            //////Update 
+            //var updateSalaryQuery = CrudOperations.UpdateSalaryQuery(8, 30000);
+            //CrudOperations.ExecuteNonQuery(updateSalaryQuery);
+
+            bool flag = true;
+            while (flag)
+            {
+                Console.WriteLine("================MENU==================");
+                Console.WriteLine("Press 1 to Add Employee");
+                Console.WriteLine("Press 2 to Get All Employee");
+                Console.WriteLine("Press 3 to Delete Employee");
+                Console.WriteLine("Press 4 to Update Employee Salary");
+                Console.WriteLine("Press 5 to exit.");
+
+                Console.WriteLine("Enter your Choice: ");
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("Enter Name: ");
+                        string name = Console.ReadLine();
+                        Console.WriteLine("Enter Department: ");
+                        string dep = Console.ReadLine();
+                        Console.WriteLine("Enter Salary: ");
+                        string salary = Console.ReadLine();
+                        string inQuery = $"{name} {dep} {salary}";
+                        var insertQuery = CrudOperations.CreateInsertQuery(inQuery);
+                        Console.WriteLine(insertQuery);
+                        CrudOperations.ExecuteNonQuery(insertQuery);
+                        break;
+                    case "2":
+                        DataSet data = CrudOperations.ReadFromTable("Select * FROM dbo.Employees");
+                        Console.WriteLine(data.GetXml());
+                        break;
+                    case "3":
+                        Console.WriteLine("Enter Id to delete: ");
+                        int id = int.Parse(Console.ReadLine());
+                        var deleteQuery = CrudOperations.DeleteIdQuery(id);
+                        CrudOperations.ExecuteNonQuery(deleteQuery);
+                        break;
+                    case "4":
+                        Console.WriteLine("Enter Id: ");
+                        int Id = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter Salary: ");
+                        decimal Salary = Decimal.Parse(Console.ReadLine());
+                        var updateSalaryQuery = CrudOperations.UpdateSalaryQuery(Id,Salary);
+                        CrudOperations.ExecuteNonQuery(updateSalaryQuery);
+                        break;
+                    case "5":
+                        flag = false;
+                        return;
+                }
+            }
 
         }
     }
